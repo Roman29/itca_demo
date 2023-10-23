@@ -1,9 +1,10 @@
 resource "aws_security_group" "bastion" {
   name_prefix = "bastion-"
+  vpc_id      = aws_vpc.main.id
 
   egress {
-    from_port   = 22
-    to_port     = 65535
+    from_port   = 0
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -15,7 +16,7 @@ resource "aws_security_group" "ci_cd" {
 
   egress {
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -27,7 +28,7 @@ resource "aws_security_group" "frontend" {
 
   egress {
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -39,7 +40,7 @@ resource "aws_security_group" "backend" {
 
   egress {
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -51,7 +52,7 @@ resource "aws_security_group" "monitoring" {
 
   egress {
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -63,7 +64,7 @@ resource "aws_security_group" "rds" {
 
   egress {
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
