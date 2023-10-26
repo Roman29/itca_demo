@@ -5,6 +5,19 @@ resource "aws_instance" "bastion" {
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.bastion.id]
   associate_public_ip_address = true
+
+    provisioner "file" {
+      source      = "C:/Users/Home/Downloads/key/dev_ops_itca.pem"
+      destination = "/home/ec2-user/dev_ops_itca.pem"
+
+      connection {
+        type        = "ssh"
+        host        = aws_instance.bastion.public_ip
+        user        = "ec2-user"
+        private_key = file("C:/Users/Home/Downloads/key/dev_ops_itca.pem")
+        insecure    = true
+      }
+    }
 }
 
 resource "aws_instance" "ci_cd" {
@@ -21,7 +34,7 @@ resource "aws_instance" "frontend" {
 
 resource "aws_instance" "backend" {
   ami           = "ami-0fb820135757d28fd"
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
   subnet_id     = aws_subnet.private_1.id
 }
 
@@ -34,7 +47,7 @@ resource "aws_instance" "monitoring" {
 resource "aws_db_instance" "rds" {
   allocated_storage    = 20
   engine               = "mysql"
-  instance_class       = "db.t3.micro"
+  instance_class       = "db.t3.large"
   db_name                 = "mydb"
   username             = "admin"
   password             = "password"
